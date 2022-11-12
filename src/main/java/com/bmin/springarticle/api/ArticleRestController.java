@@ -1,5 +1,6 @@
 package com.bmin.springarticle.api;
 
+import com.bmin.springarticle.dto.ArticleCreateDto;
 import com.bmin.springarticle.entity.Article;
 import com.bmin.springarticle.entity.Comment;
 import com.bmin.springarticle.entity.Section;
@@ -26,7 +27,7 @@ public class ArticleRestController {
 
     @GetMapping(value = "/list/all")
     public List<Article> allArticles() {
-        log.info("Show the list of comments");
+        log.info("Show the list of articles");
 
         return articleService.allArticles();
     }
@@ -39,22 +40,14 @@ public class ArticleRestController {
         return articleService.articlesBySection(sectionId);
     }
 
-    public List<Comment> commentsByArticle(@RequestParam long articleId) {
 
-        log.info("show comment in article :: " + articleId);
 
-        return articleService.commentsByArticle(articleId);
-    }
-
-    @RequestMapping("/add")
-    public Article addArticle(@RequestParam long sectionId,
-                              @RequestParam long memberId,
-                              @RequestParam String title,
-                              @RequestParam String content) {
+    @PostMapping("/add")
+    public long addArticle(@RequestBody ArticleCreateDto articleCreateDto) {
 
         log.info("add a new article");
 
-        return articleService.addArticle(sectionId, memberId, title, content);
+        return articleService.addArticle(articleCreateDto).getId();
     }
 
 

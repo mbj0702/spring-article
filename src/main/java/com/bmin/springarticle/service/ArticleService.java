@@ -1,5 +1,6 @@
 package com.bmin.springarticle.service;
 
+import com.bmin.springarticle.dto.ArticleCreateDto;
 import com.bmin.springarticle.entity.Article;
 import com.bmin.springarticle.entity.Comment;
 import com.bmin.springarticle.entity.Member;
@@ -57,14 +58,11 @@ public class ArticleService {
         return newList;
     }
 
-    public List<Comment> commentsByArticle(long articleId) {
 
-        final Article targetArticle = articleRepository.findById(articleId).orElse(new Article());
 
-        return targetArticle.getComments();
-    }
-
-    public Article addArticle(long sectionId, long memberId, String title, String content) {
+    public Article addArticle(ArticleCreateDto articleCreateDto) {
+        long sectionId = articleCreateDto.getSectionId();
+        long memberId = articleCreateDto.getMemberId();
 
         final Section targetSection = sectionRepository.findById(sectionId).orElse(new Section());
 
@@ -73,24 +71,12 @@ public class ArticleService {
         Article newArticle = new Article();
         newArticle.setSection(targetSection);
         newArticle.setMember(targetMember);
-        newArticle.setTitle(title);
-        newArticle.setContent(content);
+        newArticle.setTitle(articleCreateDto.getTitle());
+        newArticle.setContent(articleCreateDto.getContent());
         newArticle.setCreatedDate(LocalDate.now());
 
-        articleRepository.save(newArticle);
+        return articleRepository.save(newArticle);
 
-        return newArticle;
     }
-
-
-//    public Comment addComment(@RequestParam long articleId, long memberId, Comment comment) {
-//
-//        Article targetArticle = articleRepository.findById(articleId).orElse(new Article());
-//
-//        targetArticle.addComment(comment);
-//
-//        return comment;
-//    }
-
 
 }

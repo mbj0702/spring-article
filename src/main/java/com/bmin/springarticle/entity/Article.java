@@ -1,5 +1,8 @@
 package com.bmin.springarticle.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,22 +32,26 @@ public class Article {
     private LocalDate createdDate;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
+            CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name="member_id")
     private Member member;
 
     @OneToMany(mappedBy="article",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+            cascade = {CascadeType.ALL})
+    @JsonManagedReference
+    @JsonIgnore
     private List<Comment> comments;
 
     @OneToMany(mappedBy="article",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+            cascade = {CascadeType.ALL})
+    @JsonManagedReference
+    @JsonIgnore
     private List<UploadFile> uploadFiles;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
+            CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name="section_id")
     private Section section;
 

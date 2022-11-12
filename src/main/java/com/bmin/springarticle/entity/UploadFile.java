@@ -1,5 +1,8 @@
 package com.bmin.springarticle.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
@@ -23,11 +26,13 @@ public class UploadFile {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonBackReference
     @JoinColumn(name="article_id")
     private Article article;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonBackReference
     @JoinColumn(name="member_id")
     private Member member;
 

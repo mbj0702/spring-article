@@ -1,5 +1,7 @@
 package com.bmin.springarticle.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,8 +22,9 @@ public class Section {
     private String title;
 
     @OneToMany(mappedBy="section",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+            cascade = {CascadeType.ALL})
+    @JsonManagedReference
+    @JsonIgnore
     private List<Article> articles;
 
     public Section() {

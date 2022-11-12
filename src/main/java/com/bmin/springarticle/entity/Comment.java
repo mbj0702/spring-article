@@ -1,5 +1,7 @@
 package com.bmin.springarticle.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,17 +29,19 @@ public class Comment {
     private LocalDate createdDate;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
+            CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name="article_id")
     private Article article;
 
-    @OneToMany(mappedBy="article",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
-    private List<Comment> comments;
+//    @OneToMany(mappedBy="article",
+//            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+//                    CascadeType.DETACH, CascadeType.REFRESH})
+//    private List<Comment> comments;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
+            CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name="member_id")
     private Member member;
 
